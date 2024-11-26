@@ -5,6 +5,7 @@ import {
 	Scripts,
 	ScrollRestoration,
 	isRouteErrorResponse,
+	useLoaderData,
 } from 'react-router';
 
 import type { Route } from './+types/root';
@@ -24,7 +25,16 @@ export const links: Route.LinksFunction = () => [
 	{ rel: 'stylesheet', href: stylesheet },
 ];
 
+export async function loader({ context }: Route.LoaderArgs) {
+	const { clientEnv } = context;
+
+	return {
+		clientEnv,
+	};
+}
+
 export function Layout({ children }: { children: React.ReactNode }) {
+	const { clientEnv } = useLoaderData<typeof loader>();
 	return (
 		<html lang="en">
 			<head>
@@ -37,6 +47,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
 				{children}
 				<ScrollRestoration />
 				<Scripts />
+				<script
+					// biome-ignore lint/security/noDangerouslySetInnerHtml: We set the window.env variable.
+					dangerouslySetInnerHTML={{
+						__html: `window.env = ${JSON.stringify(clientEnv)}`,
+					}}
+				/>
 			</body>
 		</html>
 	);

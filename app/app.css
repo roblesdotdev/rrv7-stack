@@ -3,10 +3,10 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: dark;
+	color-scheme: dark;
 }
 
 html,
 body {
-  @apply bg-neutral-950 text-neutral-100 antialiased min-h-screen min-w-80;
+	@apply bg-neutral-950 text-neutral-100 antialiased min-h-screen min-w-80;
 }

@@ -4,6 +4,7 @@ import { reactRouterDevTools } from 'react-router-devtools';
 import { reactRouterHonoServer } from 'react-router-hono-server/dev';
 import tailwindcss from 'tailwindcss';
 import { defineConfig } from 'vite';
+import { iconsSpritesheet } from 'vite-plugin-icons-spritesheet';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
@@ -18,7 +19,17 @@ export default defineConfig({
 	plugins: [
 		reactRouterDevTools(),
 		reactRouter(),
-		reactRouterHonoServer(),
+		reactRouterHonoServer({
+			dev: {
+				exclude: [/^\/(other)\/.+/],
+			},
+		}),
 		tsconfigPaths(),
+		iconsSpritesheet({
+			inputDir: './other/svg-icons',
+			outputDir: './app/components/icon/icons',
+			fileName: 'icon.svg',
+			withTypes: true,
+		}),
 	],
 });
